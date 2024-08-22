@@ -58,7 +58,7 @@ void ChangeSize(int w, int h)
 void SetupRC()
 {
     glClearColor(0.01f, 0.01f, 0.02f, 1.0f);
-    for (size_t i = 0; i < 4000; ++i)
+    for (size_t i = 0; i < 10000; ++i)
     {
         Point pt;
         pt.pos.x = -50 + (rand() % 100);
@@ -81,11 +81,11 @@ void SetupRC()
 
 void Tick(float delta = 1)
 {
-    for (Point &point : points)
+    for (size_t i = 0; i < points.size(); i++)
     {
-        for (Point &point2 : points)
+        for (size_t j = i; j < points.size(); j++)
         {
-            Vector2 R = point2.pos - point.pos;
+            Vector2 R = points[j].pos - points[i].pos;
             float Rlen = R.len();
             if (Rlen <= 0.01)
             {
@@ -93,11 +93,12 @@ void Tick(float delta = 1)
                 Rlen = 0.001;
                 // continue;
             }
-            float acc = point2.mass * G / (Rlen * Rlen);
-            point.velocity = point.velocity + R.normalize() * acc;
-            // cout << point.velocity.len();
+            float acc = G / (Rlen * Rlen);
+            Vector2 Rnorm = R.normalize() * acc;
+            points[i].velocity = points[i].velocity + Rnorm * points[j].mass;
+            points[j].velocity = points[j].velocity + Rnorm * points[i].mass;
         }
-        point.pos = point.pos + (point.velocity * delta);
+        points[i].pos = points[i].pos + (points[i].velocity * delta);
     }
 
     glutPostRedisplay();
