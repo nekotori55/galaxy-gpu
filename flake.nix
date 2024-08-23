@@ -37,7 +37,6 @@
             libGL
             xorg.libXi
             xorg.libXmu
-            freeglut
             xorg.libXext
             xorg.libX11
             xorg.libXv

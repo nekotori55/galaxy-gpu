@@ -3,6 +3,8 @@
 #include <iostream>
 #include <vector>
 
+#define POINTS_COUNT 3000
+
 using namespace std;
 
 static GLfloat windowSizeX = 1800.0f;
@@ -58,7 +60,7 @@ void ChangeSize(int w, int h)
 void SetupRC()
 {
     glClearColor(0.01f, 0.01f, 0.02f, 1.0f);
-    for (size_t i = 0; i < 10000; ++i)
+    for (size_t i = 0; i < POINTS_COUNT; ++i)
     {
         Point pt;
         pt.pos.x = -50 + (rand() % 100);
@@ -90,7 +92,7 @@ void Tick(float delta = 1)
             if (Rlen <= 0.01)
             {
                 // point.velocity = point2.velocity;
-                Rlen = 0.001;
+                Rlen = 0.01;
                 // continue;
             }
             float acc = G / (Rlen * Rlen);
@@ -112,7 +114,7 @@ void RenderScene()
 
     glMatrixMode(GL_PROJECTION);
     glLoadIdentity();
-    glOrtho(-50, 50, -50, 50, -1, 1);
+    glOrtho(-150, 150, -150, 150, -1, 1);
 
     glMatrixMode(GL_MODELVIEW);
     glLoadIdentity();
